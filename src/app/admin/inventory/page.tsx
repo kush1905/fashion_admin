@@ -146,7 +146,7 @@ export default function InventoryPage() {
       </TableWrap>
 
       <Sheet open={!!sku} onOpenChange={() => setSku(null)}>
-        <SheetContent className="p-5">
+        <SheetContent className="overflow-y-auto p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
           <h2 className="font-display text-2xl">Adjust stock</h2>
           <p className="text-sm text-muted-foreground">{current?.product.title} · {current?.sku}</p>
           <div className="mt-4 grid gap-3">

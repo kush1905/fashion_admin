@@ -71,8 +71,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#14110f] lg:grid lg:grid-cols-[minmax(0,1.05fr)_minmax(440px,1fr)]">
-      <aside className="relative isolate h-[36vh] overflow-hidden sm:h-[40vh] lg:h-screen">
+    <div className="min-h-dvh bg-[#14110f] lg:grid lg:grid-cols-[minmax(0,1.05fr)_minmax(min(100%,440px),1fr)]">
+      <aside className="relative isolate h-[30vh] overflow-hidden sm:h-[38vh] lg:h-dvh">
         <img
           src={LOGIN_ART.hero}
           alt="Couture gown, lookbook still"
@@ -81,7 +81,7 @@ export default function LoginPage() {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,17,15,0.18)_0%,rgba(20,17,15,0.12)_38%,rgba(20,17,15,0.78)_100%)]" />
         <div className="login-grain pointer-events-none absolute inset-0 opacity-40 mix-blend-overlay" />
 
-        <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-10">
+        <div className="relative z-10 flex h-full flex-col justify-between p-5 pt-[max(1.25rem,env(safe-area-inset-top))] sm:p-10">
           <div className="flex items-center gap-3 text-[#f6f1ea]">
             <div className="flex size-10 items-center justify-center rounded-md bg-[#c4a574] text-sm font-medium text-[#1c1917]">
               B
@@ -112,7 +112,7 @@ export default function LoginPage() {
         </div>
       </aside>
 
-      <main className="relative z-10 -mt-8 flex items-center justify-center overflow-hidden bg-[#efe8dc] px-4 pb-10 pt-0 sm:px-10 lg:mt-0 lg:px-14 lg:py-10">
+      <main className="relative z-10 -mt-8 flex items-center justify-center overflow-x-hidden bg-[#efe8dc] px-4 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-0 sm:px-10 lg:mt-0 lg:px-14 lg:py-10">
         <div className="pointer-events-none absolute -top-24 -right-16 size-72 rounded-full bg-[#6b2d3c]/8 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-28 -left-20 size-80 rounded-full bg-[#c4a574]/18 blur-3xl" />
         <div className="login-grain pointer-events-none absolute inset-0 opacity-20 mix-blend-multiply" />
@@ -120,9 +120,9 @@ export default function LoginPage() {
         <article className="relative w-full max-w-[440px] overflow-hidden rounded-2xl border border-[#e4dcd1] bg-[#fffcf8] shadow-[0_30px_80px_-28px_rgba(28,25,23,0.35),0_1px_0_rgba(255,255,255,0.9)_inset]">
           <div className="h-[3px] bg-[linear-gradient(90deg,#c4a574_0%,#6b2d3c_52%,#c4a574_100%)]" />
 
-          <div className="px-6 pt-7 pb-8 sm:px-8">
+          <div className="px-5 pt-6 pb-7 sm:px-8 sm:pt-7 sm:pb-8">
             <p className="text-[11px] tracking-[0.22em] text-[#9a6b24] uppercase">Staff entrance</p>
-            <h1 className="font-display mt-2 text-[2.35rem] leading-none text-[#1c1917]">Sign in</h1>
+            <h1 className="font-display mt-2 text-[2rem] leading-none text-[#1c1917] sm:text-[2.35rem]">Sign in</h1>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
               Use a Super Admin or Order Manager desk.
               <span className="hidden sm:inline"> This is a frontend demo — nothing writes to a live store.</span>

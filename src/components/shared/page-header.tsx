@@ -33,10 +33,14 @@ export function PageHeader({
             ))}
           </nav>
         ) : null}
-        <h1 className="font-display text-3xl tracking-tight">{title}</h1>
+        <h1 className="font-display text-2xl tracking-tight sm:text-3xl">{title}</h1>
         {description ? <p className="mt-1 max-w-2xl text-sm text-muted-foreground">{description}</p> : null}
       </div>
-      {actions ? <div className={cn("flex flex-wrap items-center gap-2")}>{actions}</div> : null}
+      {actions ? (
+        <div className={cn("flex w-full flex-wrap items-center gap-2 sm:w-auto [&_a]:flex-1 sm:[&_a]:flex-none [&_button]:flex-1 sm:[&_button]:flex-none")}>
+          {actions}
+        </div>
+      ) : null}
     </div>
   );
 }

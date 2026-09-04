@@ -31,10 +31,10 @@ export function EmptyState({
   );
 }
 
-export function TableWrap({ children }: { children: ReactNode }) {
+export function TableWrap({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div className="overflow-x-auto rounded-xl border bg-card">
-      <table className="w-full min-w-[720px] text-left text-sm">{children}</table>
+    <div className={cn("max-w-full overflow-x-auto overscroll-x-contain rounded-xl border bg-card", className)}>
+      <table className="w-full min-w-[36rem] text-left text-sm">{children}</table>
     </div>
   );
 }

@@ -31,7 +31,7 @@ export default function CustomerDetailPage() {
   return (
     <div>
       <PageHeader title={customer.name} description={`${customer.email} · ${customer.phone}`} crumbs={[{ href: "/admin/customers", label: "Customers" }, { label: customer.name }]} />
-      <div className="mb-6 grid gap-3 sm:grid-cols-4">
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <KpiCard label="Orders" value={String(customer.totalOrders)} />
         <KpiCard label="Lifetime spend" value={formatCurrency(customer.totalSpend)} />
         <KpiCard label="Segment" value={customer.segment.toUpperCase()} />

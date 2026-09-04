@@ -138,7 +138,7 @@ export function ProductEditor({ productId }: { productId?: string }) {
 
           <Card className="grid gap-4 p-5">
             <h2 className="font-display text-xl">Pricing</h2>
-            <div className="grid gap-4 sm:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
               <Field label="MRP"><Input type="number" value={form.mrp} onChange={(e) => set("mrp", Number(e.target.value))} /></Field>
               <Field label="Selling price"><Input type="number" value={form.price} onChange={(e) => set("price", Number(e.target.value))} /></Field>
               <Field label="Discount"><Input readOnly value={`${discount}%`} /></Field>
@@ -162,8 +162,8 @@ export function ProductEditor({ productId }: { productId?: string }) {
             <Field label="Sizes (comma-separated)">
               <Input value={form.sizes.join(", ")} onChange={(e) => set("sizes", e.target.value.split(",").map((s) => s.trim()).filter(Boolean))} />
             </Field>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+            <div className="max-w-full overflow-x-auto">
+              <table className="w-full min-w-[32rem] text-sm">
                 <thead>
                   <tr className="text-left text-xs text-muted-foreground">
                     <th className="pb-2">Colour</th>

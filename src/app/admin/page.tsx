@@ -16,6 +16,7 @@ import { useUiStore } from "@/stores/ui-store";
 import { useAuthStore } from "@/stores/auth-store";
 import { categories } from "@/data/catalog";
 import { useCan } from "@/hooks/use-can";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { canAccessPath } from "@/lib/permissions";
 
 const ranges = [
@@ -32,6 +33,7 @@ export default function DashboardPage() {
   const activity = useUiStore((s) => s.activity);
   const user = useAuthStore((s) => s.user);
   const can = useCan();
+  const compact = useMediaQuery("(max-width: 640px)");
   const firstName = user?.name.split(" ")[0] ?? "there";
   const isStaff = user?.roleId !== "role_super";
 
@@ -77,7 +79,7 @@ export default function DashboardPage() {
         }
       />
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
+      <div className="grid grid-cols-2 gap-3 xl:grid-cols-3 2xl:grid-cols-6">
         <KpiCard label="Revenue" value={formatCurrency(kpis.revenue.value)} change={percentChange(kpis.revenue.value, kpis.revenue.previous)} hint="vs last period" />
         <KpiCard label="Orders" value={formatNumber(kpis.orders.value)} change={percentChange(kpis.orders.value, kpis.orders.previous)} hint="this month" />
         <KpiCard label="Customers" value={formatNumber(kpis.customers.value)} change={percentChange(kpis.customers.value, kpis.customers.previous)} hint="active book" />
@@ -93,21 +95,21 @@ export default function DashboardPage() {
               <h2 className="font-display text-xl">Sales</h2>
               <p className="text-xs text-muted-foreground">Atelier intake, not including appointments</p>
             </div>
-            <div className="flex gap-1 rounded-lg bg-muted p-1">
+            <div className="flex max-w-full gap-1 overflow-x-auto rounded-lg bg-muted p-1 [scrollbar-width:none]">
               {ranges.map((r) => (
                 <button
                   key={r.id}
                   onClick={() => setRange(r.id)}
-                  className={`rounded-md px-2.5 py-1 text-xs ${range === r.id ? "bg-card shadow-sm" : "text-muted-foreground"}`}
+                  className={`shrink-0 rounded-md px-2.5 py-1 text-xs ${range === r.id ? "bg-card shadow-sm" : "text-muted-foreground"}`}
                 >
-                  {r.label}
+                  {compact ? r.id : r.label}
                 </button>
               ))}
             </div>
           </div>
-          <div className="h-64">
+          <div className="h-52 sm:h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={data}>
+              <AreaChart data={data} margin={{ top: 8, right: 8, left: compact ? -18 : 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="rev" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#6b2d3c" stopOpacity={0.25} />
@@ -115,8 +117,8 @@ export default function DashboardPage() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid stroke="#e4dcd1" vertical={false} />
-                <XAxis dataKey="label" tick={{ fontSize: 11 }} stroke="#a39b91" />
-                <YAxis tick={{ fontSize: 11 }} stroke="#a39b91" tickFormatter={(v) => `${Math.round(v / 1000)}k`} />
+                <XAxis dataKey="label" tick={{ fontSize: 11 }} stroke="#a39b91" interval={compact ? 1 : 0} />
+                {compact ? null : <YAxis tick={{ fontSize: 11 }} stroke="#a39b91" tickFormatter={(v) => `${Math.round(v / 1000)}k`} />}
                 <Tooltip formatter={(v) => formatCurrency(Number(v ?? 0))} />
                 <Area type="monotone" dataKey="revenue" stroke="#6b2d3c" fill="url(#rev)" strokeWidth={2} />
               </AreaChart>
@@ -138,8 +140,8 @@ export default function DashboardPage() {
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        <Card className="p-0">
-          <div className="flex items-center justify-between px-4 py-3">
+        <Card className="overflow-hidden p-0">
+          <div className="flex items-center justify-between gap-3 px-4 py-3">
             <h2 className="font-display text-xl">Top products</h2>
             {canAccessPath(user?.roleId, "/admin/analytics/products") ? (
               <Link href="/admin/analytics/products" className="text-xs text-muted-foreground hover:text-foreground">
@@ -147,7 +149,7 @@ export default function DashboardPage() {
               </Link>
             ) : null}
           </div>
-          <TableWrap>
+          <TableWrap className="rounded-none border-x-0">
             <thead>
               <tr>
                 <Th>Product</Th>
@@ -175,14 +177,14 @@ export default function DashboardPage() {
           <p className="px-4 py-2 text-[11px] text-muted-foreground">*Units inferred from demo velocity, not live POS.</p>
         </Card>
 
-        <Card className="p-0">
+        <Card className="overflow-hidden p-0">
           <div className="flex items-center justify-between px-4 py-3">
             <h2 className="font-display text-xl">Recent orders</h2>
             <Link href="/admin/orders" className="text-xs text-muted-foreground hover:text-foreground">
               All orders
             </Link>
           </div>
-          <TableWrap>
+          <TableWrap className="rounded-none border-x-0">
             <thead>
               <tr>
                 <Th>Order</Th>

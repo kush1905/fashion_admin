@@ -6,7 +6,7 @@ export function Input({ className, type, ...props }: ComponentProps<"input">) {
     <input
       type={type}
       className={cn(
-        "flex h-9 w-full rounded-md border border-input bg-card px-3 text-sm shadow-none outline-none transition placeholder:text-muted-foreground focus-visible:border-ring disabled:opacity-50",
+        "flex h-9 w-full min-w-0 rounded-md border border-input bg-card px-3 text-sm shadow-none outline-none transition placeholder:text-muted-foreground focus-visible:border-ring disabled:opacity-50",
         className,
       )}
       {...props}

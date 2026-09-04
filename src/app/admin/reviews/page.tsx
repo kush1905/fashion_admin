@@ -33,25 +33,25 @@ export default function ReviewsPage() {
   return (
     <div>
       <PageHeader title="Reviews" description="What clients write after the wedding week." crumbs={[{ href: "/admin", label: "Dashboard" }, { label: "Reviews" }]} />
-      <div className="mb-4 grid gap-3 sm:grid-cols-4">
+      <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         <Card className="p-4"><p className="text-xs text-muted-foreground uppercase">Average</p><p className="font-display text-2xl">{avg.toFixed(1)} / 5</p></Card>
         {[5, 4, 3, 2, 1].map((n) => (
-          <Card key={n} className="hidden p-4 sm:block">
+          <Card key={n} className="p-4">
             <p className="text-xs text-muted-foreground">{n} star</p>
             <p className="font-display text-xl">{reviews.filter((r) => r.rating === n).length}</p>
           </Card>
         ))}
       </div>
-      <div className="mb-4 flex gap-2">
+      <div className="mb-4 grid grid-cols-2 gap-2">
         <Select value={rating} onValueChange={setRating}>
-          <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All ratings</SelectItem>
             {[5, 4, 3, 2, 1].map((n) => <SelectItem key={n} value={String(n)}>{n} stars</SelectItem>)}
           </SelectContent>
         </Select>
         <Select value={status} onValueChange={setFilter}>
-          <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
           <SelectContent>
             {["all", "pending", "approved", "hidden", "rejected"].map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
           </SelectContent>
@@ -75,7 +75,7 @@ export default function ReviewsPage() {
         </TableWrap>
       )}
       <Sheet open={!!active} onOpenChange={() => setActive(null)}>
-        <SheetContent className="p-5">
+        <SheetContent className="overflow-y-auto p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
           {active ? (
             <>
               <h2 className="font-display text-2xl">{active.title}</h2>

@@ -97,8 +97,8 @@ export default function ProductsPage() {
         }
       />
 
-      <div className="mb-4 grid gap-2 md:grid-cols-4 xl:grid-cols-8">
-        <Input placeholder="Search title or SKU" value={q} onChange={(e) => { setQ(e.target.value); setPage(1); }} className="md:col-span-2" />
+      <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-8">
+        <Input placeholder="Search title or SKU" value={q} onChange={(e) => { setQ(e.target.value); setPage(1); }} className="sm:col-span-2 xl:col-span-2" />
         <Select value={category} onValueChange={(v) => { setCategory(v); setPage(1); }}>
           <SelectTrigger><SelectValue placeholder="Category" /></SelectTrigger>
           <SelectContent>
@@ -223,9 +223,9 @@ export default function ProductsPage() {
         </TableWrap>
       )}
 
-      <div className="mt-4 flex items-center justify-between text-sm">
+      <div className="mt-4 flex flex-col gap-3 text-sm sm:flex-row sm:items-center sm:justify-between">
         <Select value={sort} onValueChange={setSort}>
-          <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-full sm:w-40"><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="newest">Newest</SelectItem>
             <SelectItem value="price">Price</SelectItem>
