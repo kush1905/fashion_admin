@@ -36,7 +36,7 @@ export default function OrdersPage() {
         description="Every ticket from the shop — payment, fulfilment, and where it needs to go."
         crumbs={[{ href: "/admin", label: "Dashboard" }, { label: "Orders" }]}
       />
-      <div className="mb-4 grid gap-2 md:grid-cols-4">
+      <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-4">
         <Input placeholder="Search order, customer, city" value={q} onChange={(e) => setQ(e.target.value)} />
         <Select value={status} onValueChange={setStatus}>
           <SelectTrigger><SelectValue /></SelectTrigger>

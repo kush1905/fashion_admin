@@ -94,7 +94,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const unread = notices.filter((n) => !n.read).length;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-dvh min-w-0 bg-background">
       <aside
         className={cn(
           "fixed inset-y-0 left-0 z-30 hidden border-r border-sidebar-border transition-[width] duration-200 md:block",
@@ -105,24 +105,25 @@ export function AdminShell({ children }: { children: ReactNode }) {
       </aside>
 
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent side="left" className="w-[248px] border-0 p-0">
+        <SheetContent side="left" className="w-[min(calc(100vw-2.5rem),280px)] border-0 p-0 pt-[env(safe-area-inset-top)]">
           <SidebarBody collapsed={false} onNavigate={() => setMobileOpen(false)} />
         </SheetContent>
       </Sheet>
 
-      <div className={cn("transition-[padding] duration-200", collapsed ? "md:pl-[72px]" : "md:pl-[248px]")}>
-        <header className="sticky top-0 z-20 flex h-14 w-full items-center gap-3 border-b bg-background/90 px-4 backdrop-blur-md md:px-8">
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setMobileOpen(true)} aria-label="Open navigation">
+      <div className={cn("min-w-0 transition-[padding] duration-200", collapsed ? "md:pl-[72px]" : "md:pl-[248px]")}>
+        <header className="sticky top-0 z-20 flex min-h-14 w-full min-w-0 items-center gap-2 border-b bg-background/90 px-3 py-2 pt-[max(0.5rem,env(safe-area-inset-top))] backdrop-blur-md sm:gap-3 md:px-8">
+          <Button variant="ghost" size="icon" className="shrink-0 md:hidden" onClick={() => setMobileOpen(true)} aria-label="Open navigation">
             <Menu className="size-4" />
           </Button>
-          <Button variant="ghost" size="icon" className="hidden md:inline-flex" onClick={toggleCollapsed} aria-label="Collapse sidebar">
+          <Button variant="ghost" size="icon" className="hidden shrink-0 md:inline-flex" onClick={toggleCollapsed} aria-label="Collapse sidebar">
             <PanelLeft className="size-4" />
           </Button>
-          <div className="relative w-full max-w-sm min-w-0">
-            <Search className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
+          <div className="relative min-w-0 flex-1 md:max-w-sm">
+            <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Search orders, products, customers…"
+              placeholder="Search…"
               className="h-9 w-full bg-card pl-8"
+              aria-label="Search orders, products, customers"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   const q = e.currentTarget.value.toLowerCase();
@@ -133,7 +134,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
               }}
             />
           </div>
-          <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-0.5 sm:gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="relative" aria-label="Notifications">
@@ -141,7 +142,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
                 {unread > 0 ? <span className="absolute top-1.5 right-1.5 size-1.5 rounded-full bg-primary" /> : null}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-80 p-0">
+            <DropdownMenuContent align="end" className="w-[min(20rem,calc(100vw-1.5rem))] p-0">
               <div className="flex items-center justify-between px-3 py-2">
                 <p className="text-sm font-medium">Needs attention</p>
                 <button className="text-xs text-muted-foreground hover:text-foreground" onClick={markAllRead}>
@@ -189,7 +190,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </DropdownMenu>
           </div>
         </header>
-        <main className="px-4 py-6 md:px-8">{children}</main>
+        <main className="min-w-0 px-4 py-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] md:px-8 md:py-6">{children}</main>
       </div>
       <span className="sr-only">{pathname}</span>
     </div>

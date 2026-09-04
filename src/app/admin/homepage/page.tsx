@@ -35,19 +35,19 @@ export default function HomepagePage() {
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_380px]">
         <div className="grid gap-2">
           {sections.map((s, i) => (
-            <Card key={s.id} className={`flex items-center gap-3 p-3 ${selected === s.id ? "ring-1 ring-primary" : ""}`}>
+            <Card key={s.id} className={`flex flex-wrap items-center gap-3 p-3 ${selected === s.id ? "ring-1 ring-primary" : ""}`}>
               <button className="text-muted-foreground" aria-label="Reorder" onClick={() => move(i, -1)}>
                 <GripVertical className="size-4" />
               </button>
-              <button className="min-w-0 flex-1 text-left" onClick={() => setSelected(s.id)}>
+              <button className="min-w-0 flex-1 basis-40 text-left" onClick={() => setSelected(s.id)}>
                 <p className="font-medium">{s.title}</p>
                 <p className="truncate text-xs text-muted-foreground">{s.meta}</p>
               </button>
-              <div className="flex gap-1">
+              <div className="ml-auto flex items-center gap-1">
                 <Button size="sm" variant="ghost" onClick={() => move(i, -1)}>Up</Button>
                 <Button size="sm" variant="ghost" onClick={() => move(i, 1)}>Down</Button>
+                <Switch checked={s.visible} onCheckedChange={() => toggle(s.id)} />
               </div>
-              <Switch checked={s.visible} onCheckedChange={() => toggle(s.id)} />
             </Card>
           ))}
         </div>

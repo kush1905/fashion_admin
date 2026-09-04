@@ -17,7 +17,7 @@ export function KpiCard({
   return (
     <Card className="p-4">
       <p className="text-xs tracking-wide text-muted-foreground uppercase">{label}</p>
-      <p className="mt-2 font-display text-2xl">{value}</p>
+      <p className="mt-2 font-display text-xl leading-tight sm:text-2xl">{value}</p>
       <div className="mt-2 flex items-center gap-2 text-xs">
         {change != null ? (
           <span className={cn("inline-flex items-center gap-0.5", up ? "text-success" : "text-destructive")}>

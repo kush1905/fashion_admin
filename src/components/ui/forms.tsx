@@ -48,7 +48,7 @@ export function SelectTrigger({ className, children, ...props }: ComponentProps<
   return (
     <SelectPrimitive.Trigger
       className={cn(
-        "flex h-9 w-full items-center justify-between gap-2 rounded-md border border-input bg-card px-3 text-sm",
+        "flex h-9 w-full min-w-0 items-center justify-between gap-2 rounded-md border border-input bg-card px-3 text-sm [&>span]:min-w-0 [&>span]:truncate",
         className,
       )}
       {...props}
@@ -91,12 +91,18 @@ export function SelectItem({ className, children, ...props }: ComponentProps<typ
 
 export const Tabs = TabsPrimitive.Root;
 export const TabsList = ({ className, ...props }: ComponentProps<typeof TabsPrimitive.List>) => (
-  <TabsPrimitive.List className={cn("inline-flex h-10 items-center gap-1 rounded-lg bg-muted p-1", className)} {...props} />
+  <TabsPrimitive.List
+    className={cn(
+      "flex h-10 max-w-full items-center gap-1 overflow-x-auto rounded-lg bg-muted p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+      className,
+    )}
+    {...props}
+  />
 );
 export const TabsTrigger = ({ className, ...props }: ComponentProps<typeof TabsPrimitive.Trigger>) => (
   <TabsPrimitive.Trigger
     className={cn(
-      "inline-flex items-center rounded-md px-3 py-1.5 text-sm text-muted-foreground data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+      "inline-flex shrink-0 items-center rounded-md px-3 py-1.5 text-sm whitespace-nowrap text-muted-foreground data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm",
       className,
     )}
     {...props}

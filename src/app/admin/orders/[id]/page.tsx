@@ -56,13 +56,13 @@ export default function OrderDetailPage() {
             <h2 className="font-display text-xl">Pieces</h2>
             <ul className="mt-4 grid gap-3">
               {order.items.map((item) => (
-                <li key={item.sku} className="flex gap-3 border-b border-border/70 pb-3 last:border-0">
-                  <img src={item.image} alt="" className="h-20 w-16 rounded-md object-cover" />
-                  <div className="flex-1">
+                <li key={item.sku} className="flex min-w-0 gap-3 border-b border-border/70 pb-3 last:border-0">
+                  <img src={item.image} alt="" className="h-16 w-12 shrink-0 rounded-md object-cover sm:h-20 sm:w-16" />
+                  <div className="min-w-0 flex-1">
                     <Link href={`/admin/products/${item.productId}`} className="font-medium hover:underline">{item.title}</Link>
                     <p className="text-xs text-muted-foreground">{item.sku} · {item.color} · {item.size} · ×{item.quantity}</p>
                   </div>
-                  <p className="text-sm">{formatCurrency(item.price * item.quantity)}</p>
+                  <p className="shrink-0 text-sm tabular-nums">{formatCurrency(item.price * item.quantity)}</p>
                 </li>
               ))}
             </ul>

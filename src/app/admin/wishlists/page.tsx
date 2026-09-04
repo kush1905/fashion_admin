@@ -18,7 +18,7 @@ export default function WishlistsPage() {
   return (
     <div>
       <PageHeader title="Wishlists" description="What people are holding, not yet buying." crumbs={[{ href: "/admin", label: "Dashboard" }, { label: "Wishlists" }]} />
-      <div className="mb-6 grid gap-3 sm:grid-cols-3">
+      <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
         <KpiCard label="Saved items" value={String(wishlists.length)} />
         <KpiCard label="Unique products" value={String(byProduct.length)} />
         <KpiCard label="Est. conversion" value="18%" hint="demo figure" />

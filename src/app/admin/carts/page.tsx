@@ -16,7 +16,7 @@ export default function CartsPage() {
   return (
     <div>
       <PageHeader title="Carts" description="Open baskets and the ones that walked away." crumbs={[{ href: "/admin", label: "Dashboard" }, { label: "Carts" }]} />
-      <div className="mb-6 grid gap-3 sm:grid-cols-3">
+      <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
         <KpiCard label="Abandoned carts" value={String(abandoned.length)} />
         <KpiCard label="Abandoned value" value={formatCurrency(abandoned.reduce((s, c) => s + c.value, 0))} />
         <KpiCard label="Open carts" value={String(carts.filter((c) => !c.abandoned).length)} />

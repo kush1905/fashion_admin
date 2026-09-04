@@ -38,7 +38,7 @@ export default function ContentPage() {
         </div>
         {current ? (
           <Card className="grid gap-3 p-5">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <StatusBadge value={current.status} />
               <span className="text-xs text-muted-foreground">/{current.slug}</span>
             </div>

@@ -11,7 +11,7 @@ export default function SalesAnalyticsPage() {
   return (
     <div>
       <PageHeader title="Sales analytics" description="Revenue, tickets, and how the month is tracking." crumbs={[{ href: "/admin", label: "Dashboard" }, { label: "Sales analytics" }]} />
-      <div className="grid gap-3 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <KpiCard label="Revenue" value={formatCurrency(kpis.revenue.value)} change={percentChange(kpis.revenue.value, kpis.revenue.previous)} hint="this month" />
         <KpiCard label="Orders" value={formatNumber(kpis.orders.value)} change={percentChange(kpis.orders.value, kpis.orders.previous)} />
         <KpiCard label="AOV" value={formatCurrency(kpis.aov.value)} change={percentChange(kpis.aov.value, kpis.aov.previous)} />
@@ -19,9 +19,9 @@ export default function SalesAnalyticsPage() {
       </div>
       <Card className="mt-4 p-4">
         <h2 className="mb-4 font-display text-xl">Twelve-month trend</h2>
-        <div className="h-72">
+        <div className="h-56 sm:h-72">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={salesSeries["12m"]}>
+            <BarChart data={salesSeries["12m"]} margin={{ top: 8, right: 8, left: -12, bottom: 0 }}>
               <CartesianGrid stroke="#e4dcd1" vertical={false} />
               <XAxis dataKey="label" tick={{ fontSize: 11 }} />
               <YAxis tickFormatter={(v) => `${v / 100000}L`} tick={{ fontSize: 11 }} />
