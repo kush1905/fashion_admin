@@ -8,6 +8,11 @@ const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
 const newsreader = Newsreader({ subsets: ["latin"], variable: "--font-newsreader" });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000"),
   title: "Backstage Admin",
   description: "Fashion commerce operating system — frontend demo.",
 };
