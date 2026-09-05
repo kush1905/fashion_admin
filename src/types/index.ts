@@ -92,6 +92,7 @@ export type PaymentStatus = "paid" | "pending" | "failed" | "refunded" | "partia
 export type FulfillmentType = "home_delivery" | "store_pickup";
 
 export type Address = {
+  label?: string;
   name: string;
   phone: string;
   line1: string;
@@ -257,6 +258,8 @@ export type Banner = {
   desktopImage: string;
   tabletImage: string;
   mobileImage: string;
+  videoUrl?: string;
+  videoPoster?: string;
   status: BannerStatus;
   startDate: string;
   endDate: string;
