@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/layout";
 import { Switch } from "@/components/ui/forms";
 import { useOpsStore } from "@/stores/ops-store";
+import { MediaImg } from "@/components/media/media-img";
 
 export default function HomepagePage() {
   const sections = useOpsStore((s) => s.homepage);
@@ -58,7 +59,7 @@ export default function HomepagePage() {
           </div>
           {current ? (
             <>
-              <img src={current.preview} alt="" className="h-56 w-full object-cover" />
+              <MediaImg src={current.preview} alt="" className="h-56 w-full object-cover" />
               <div className="p-4">
                 <p className="font-display text-2xl">{current.title}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{current.meta}</p>

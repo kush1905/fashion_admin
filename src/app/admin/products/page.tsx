@@ -11,9 +11,11 @@ import { Input } from "@/components/ui/input";
 import { ConfirmDialog } from "@/components/ui/overlay";
 import { EmptyState, TableWrap, Td, Th } from "@/components/ui/layout";
 import { formatCurrency, formatDate } from "@/lib/format";
+import { assignableCategories, categoryPath } from "@/lib/catalog";
 import { productStock, useCatalogStore } from "@/stores/catalog-store";
 import { useCan } from "@/hooks/use-can";
 import type { ProductStatus } from "@/types";
+import { MediaImg } from "@/components/media/media-img";
 
 export default function ProductsPage() {
   const products = useCatalogStore((s) => s.products);
@@ -103,8 +105,8 @@ export default function ProductsPage() {
           <SelectTrigger><SelectValue placeholder="Category" /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All categories</SelectItem>
-            {categories.filter((c) => !c.parentId || c.productCount).map((c) => (
-              <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+            {assignableCategories(categories).map((c) => (
+              <SelectItem key={c.id} value={c.id}>{categoryPath(categories, c.id)}</SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -199,7 +201,7 @@ export default function ProductsPage() {
                 </Td>
                 <Td>
                   <div className="flex items-center gap-3">
-                    <img src={p.images[0]} alt="" className="size-12 rounded-md object-cover" />
+                    <MediaImg src={p.images[0]} alt="" className="size-12 rounded-md object-cover" />
                     <div>
                       <Link href={`/admin/products/${p.id}`} className="font-medium hover:underline">{p.title}</Link>
                       <p className="text-xs text-muted-foreground">{p.colors.map((c) => c.name).join(" · ")}</p>
@@ -207,7 +209,7 @@ export default function ProductsPage() {
                   </div>
                 </Td>
                 <Td className="font-mono text-xs">{p.sku}</Td>
-                <Td className="text-muted-foreground">{categories.find((c) => c.id === p.categoryId)?.name}</Td>
+                <Td className="text-muted-foreground text-xs">{categoryPath(categories, p.categoryId) || "—"}</Td>
                 <Td>{formatCurrency(p.price)}</Td>
                 <Td>{productStock(p)}</Td>
                 <Td><StatusBadge value={p.status} /></Td>
