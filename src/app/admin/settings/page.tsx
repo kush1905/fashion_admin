@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/shared/page-header";
 import { Button } from "@/components/ui/button";
-import { Field, Input } from "@/components/ui/input";
+import { Field, Input, NumberInput } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/forms";
 import { Card } from "@/components/ui/layout";
 import { useOpsStore } from "@/stores/ops-store";
@@ -53,13 +53,13 @@ export default function SettingsPage() {
         </TabsContent>
         <TabsContent value="shipping" className="mt-4">
           <Card className="grid gap-3 p-5 max-w-xl">
-            <Field label="Free shipping above (INR)"><Input type="number" value={form.freeShippingThreshold} onChange={(e) => setForm({ ...form, freeShippingThreshold: Number(e.target.value) })} /></Field>
+            <Field label="Free shipping above (INR)"><NumberInput value={form.freeShippingThreshold} onValueChange={(freeShippingThreshold) => setForm({ ...form, freeShippingThreshold })} /></Field>
             <p className="text-sm text-muted-foreground">Delhivery and Bluedart are mocked as couriers on shipments.</p>
           </Card>
         </TabsContent>
         <TabsContent value="tax" className="mt-4">
           <Card className="grid gap-3 p-5 max-w-xl">
-            <Field label="Default GST %"><Input type="number" value={form.taxPercent} onChange={(e) => setForm({ ...form, taxPercent: Number(e.target.value) })} /></Field>
+            <Field label="Default GST %"><NumberInput value={form.taxPercent} onValueChange={(taxPercent) => setForm({ ...form, taxPercent })} /></Field>
           </Card>
         </TabsContent>
         <TabsContent value="notifications" className="mt-4">
@@ -69,7 +69,7 @@ export default function SettingsPage() {
           <Card className="p-5 max-w-xl text-sm text-muted-foreground">Transactional templates (order confirmed, packed, out for delivery) will live here. Not wired in the demo.</Card>
         </TabsContent>
         <TabsContent value="appearance" className="mt-4">
-          <Card className="p-5 max-w-xl text-sm">Backstage uses a warm paper canvas and a single wine accent. Storefront theming will be a later phase.</Card>
+          <Card className="p-5 max-w-xl text-sm">Reena Rathore uses a warm paper canvas and a single wine accent. Storefront theming will be a later phase.</Card>
         </TabsContent>
         <TabsContent value="seo" className="mt-4">
           <Card className="p-5 max-w-xl text-sm text-muted-foreground">Default title suffix and social share image will sit here. Product SEO is already on each product.</Card>
