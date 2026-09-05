@@ -15,6 +15,7 @@ import { ORDER_STATUSES, labelize } from "@/lib/nav";
 import { useOrdersStore } from "@/stores/orders-store";
 import { useCan } from "@/hooks/use-can";
 import type { OrderStatus } from "@/types";
+import { MediaImg } from "@/components/media/media-img";
 
 export default function OrderDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -57,7 +58,7 @@ export default function OrderDetailPage() {
             <ul className="mt-4 grid gap-3">
               {order.items.map((item) => (
                 <li key={item.sku} className="flex min-w-0 gap-3 border-b border-border/70 pb-3 last:border-0">
-                  <img src={item.image} alt="" className="h-16 w-12 shrink-0 rounded-md object-cover sm:h-20 sm:w-16" />
+                  <MediaImg src={item.image} alt="" className="h-16 w-12 shrink-0 rounded-md object-cover sm:h-20 sm:w-16" />
                   <div className="min-w-0 flex-1">
                     <Link href={`/admin/products/${item.productId}`} className="font-medium hover:underline">{item.title}</Link>
                     <p className="text-xs text-muted-foreground">{item.sku} · {item.color} · {item.size} · ×{item.quantity}</p>

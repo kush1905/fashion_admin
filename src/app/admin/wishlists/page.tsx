@@ -6,6 +6,7 @@ import { formatDate } from "@/lib/format";
 import { useCatalogStore } from "@/stores/catalog-store";
 import { useCustomersStore } from "@/stores/customers-store";
 import { KpiCard } from "@/components/shared/kpi-card";
+import { MediaImg } from "@/components/media/media-img";
 
 export default function WishlistsPage() {
   const wishlists = useCustomersStore((s) => s.wishlists);
@@ -27,7 +28,7 @@ export default function WishlistsPage() {
       <div className="mb-6 grid gap-3 md:grid-cols-2">
         {byProduct.slice(0, 4).map(({ product, count }) => (
           <Card key={product.id} className="flex items-center gap-3 p-3">
-            <img src={product.images[0]} alt="" className="h-16 w-12 rounded object-cover" />
+            <MediaImg src={product.images[0]} alt="" className="h-16 w-12 rounded object-cover" />
             <div>
               <p className="font-medium">{product.title}</p>
               <p className="text-sm text-muted-foreground">{count} saves</p>

@@ -9,6 +9,7 @@ import { Card, EmptyState } from "@/components/ui/layout";
 import { formatCurrency } from "@/lib/format";
 import { useOrdersStore } from "@/stores/orders-store";
 import type { ReturnStatus } from "@/types";
+import { MediaImg } from "@/components/media/media-img";
 
 export default function ReturnDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -31,7 +32,7 @@ export default function ReturnDetailPage() {
       />
       <div className="grid gap-4 lg:grid-cols-2">
         <Card className="p-5">
-          <img src={item.image} alt="" className="h-56 w-full rounded-lg object-cover" />
+          <MediaImg src={item.image} alt="" className="h-56 w-full rounded-lg object-cover" />
           <h2 className="mt-4 font-display text-xl">{item.productTitle}</h2>
           <p className="text-sm text-muted-foreground">{item.sku}</p>
           <p className="mt-3 text-sm"><span className="text-muted-foreground">Reason · </span>{item.reason}</p>

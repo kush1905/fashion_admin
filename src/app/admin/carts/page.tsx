@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/layout";
 import { KpiCard } from "@/components/shared/kpi-card";
 import { formatCurrency, formatDateTime } from "@/lib/format";
 import { useCustomersStore } from "@/stores/customers-store";
+import { MediaImg } from "@/components/media/media-img";
 
 export default function CartsPage() {
   const carts = useCustomersStore((s) => s.carts);
@@ -35,7 +36,7 @@ export default function CartsPage() {
             <ul className="mt-3 grid gap-2">
               {c.items.map((i) => (
                 <li key={i.sku} className="flex items-center gap-2 text-sm">
-                  <img src={i.image} alt="" className="size-10 rounded object-cover" />
+                  <MediaImg src={i.image} alt="" className="size-10 rounded object-cover" />
                   {i.title} · {i.color} / {i.size} ×{i.quantity}
                 </li>
               ))}

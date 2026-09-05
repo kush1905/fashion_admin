@@ -10,6 +10,7 @@ import { EmptyState, TableWrap, Td, Th } from "@/components/ui/layout";
 import { formatCurrency, formatDate } from "@/lib/format";
 import { useOrdersStore } from "@/stores/orders-store";
 import type { ReturnStatus } from "@/types";
+import { MediaImg } from "@/components/media/media-img";
 
 const flow: ReturnStatus[] = ["requested", "approved", "pickup_scheduled", "returned", "inspected", "refund_initiated", "refund_completed"];
 
@@ -50,7 +51,7 @@ export default function ReturnsPage() {
                 <Td><Link href={`/admin/orders/${r.orderId}`} className="hover:underline">{r.orderId}</Link></Td>
                 <Td>
                   <div className="flex items-center gap-2">
-                    <img src={r.image} alt="" className="size-10 rounded object-cover" />
+                    <MediaImg src={r.image} alt="" className="size-10 rounded object-cover" />
                     <span>{r.productTitle}</span>
                   </div>
                 </Td>
