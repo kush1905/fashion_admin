@@ -28,7 +28,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
   if (!hydrated || !user) {
     return (
       <div className="grid min-h-screen place-items-center bg-background text-sm text-muted-foreground">
-        Opening Backstage…
+        Opening Reena Rathore…
       </div>
     );
   }
