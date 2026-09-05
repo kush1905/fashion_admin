@@ -46,7 +46,7 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ user: null }),
     }),
     {
-      name: "backstage-auth-v2",
+      name: "reena-rathore-auth",
       partialize: (state) => ({ user: state.user }),
       onRehydrateStorage: () => (state) => {
         state?.setHydrated();
