@@ -84,10 +84,10 @@ export default function LoginPage() {
         <div className="relative z-10 flex h-full flex-col justify-between p-5 pt-[max(1.25rem,env(safe-area-inset-top))] sm:p-10">
           <div className="flex items-center gap-3 text-[#f6f1ea]">
             <div className="flex size-10 items-center justify-center rounded-md bg-[#c4a574] text-sm font-medium text-[#1c1917]">
-              B
+              RR
             </div>
             <div>
-              <p className="font-display text-2xl leading-none">Backstage</p>
+              <p className="font-display text-2xl leading-none">Reena Rathore</p>
               <p className="mt-1 text-[10px] tracking-[0.22em] text-[#d9cfc3] uppercase">Admin</p>
             </div>
           </div>
