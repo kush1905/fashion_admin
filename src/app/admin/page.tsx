@@ -18,6 +18,7 @@ import { categories } from "@/data/catalog";
 import { useCan } from "@/hooks/use-can";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { canAccessPath } from "@/lib/permissions";
+import { MediaImg } from "@/components/media/media-img";
 
 const ranges = [
   { id: "7d", label: "7 days" },
@@ -163,7 +164,7 @@ export default function DashboardPage() {
                 <tr key={p.id}>
                   <Td>
                     <div className="flex items-center gap-3">
-                      <img src={p.images[0]} alt="" className="size-10 rounded-md object-cover" />
+                      <MediaImg src={p.images[0]} alt="" className="size-10 rounded-md object-cover" />
                       <span className="font-medium">{p.title}</span>
                     </div>
                   </Td>
@@ -227,7 +228,7 @@ export default function DashboardPage() {
             <ul className="mt-3 grid gap-3">
               {lowStock.map((p) => (
                 <li key={p.id} className="flex items-center gap-3">
-                  <img src={p.images[0]} alt="" className="size-10 rounded-md object-cover" />
+                  <MediaImg src={p.images[0]} alt="" className="size-10 rounded-md object-cover" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium">{p.title}</p>
                     <p className="text-xs text-muted-foreground">{productStock(p)} units left</p>

@@ -19,8 +19,8 @@ export const metadata: Metadata = {
     : process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
       : "http://localhost:3000"),
-  title: "Backstage Admin",
-  description: "Fashion commerce operating system — frontend demo.",
+  title: "Reena Rathore Admin",
+  description: "Reena Rathore commerce operating system — frontend demo.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

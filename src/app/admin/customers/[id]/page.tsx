@@ -11,6 +11,7 @@ import { useCustomersStore } from "@/stores/customers-store";
 import { useOrdersStore } from "@/stores/orders-store";
 import { useCatalogStore } from "@/stores/catalog-store";
 import { KpiCard } from "@/components/shared/kpi-card";
+import { MediaImg } from "@/components/media/media-img";
 
 export default function CustomerDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -64,8 +65,20 @@ export default function CustomerDetailPage() {
         <TabsContent value="addresses" className="mt-4 grid gap-3 md:grid-cols-2">
           {customer.addresses.length === 0 ? <EmptyState title="No saved addresses" /> : customer.addresses.map((a, i) => (
             <Card key={i} className="p-4">
-              <p className="font-medium">{a.name}</p>
-              <p className="text-sm text-muted-foreground">{a.line1}{a.landmark ? `, ${a.landmark}` : ""}<br />{a.city}, {a.state} {a.postalCode}</p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="font-medium">{a.name}</p>
+                {a.label ? <span className="text-[10px] tracking-[0.16em] uppercase text-muted-foreground">{a.label}</span> : null}
+              </div>
+              {i === 0 ? <p className="mt-1 text-[10px] tracking-[0.14em] uppercase text-primary">Default</p> : null}
+              <p className="mt-2 text-sm text-muted-foreground">
+                {a.line1}
+                {a.line2 ? <>, {a.line2}</> : null}
+                {a.landmark ? <>, {a.landmark}</> : null}
+                <br />
+                {a.city}, {a.state} {a.postalCode}
+                <br />
+                {a.country}
+              </p>
               <p className="mt-2 text-sm">{a.phone}</p>
             </Card>
           ))}
@@ -76,7 +89,7 @@ export default function CustomerDetailPage() {
               const p = products.find((x) => x.id === w.productId);
               return (
                 <li key={w.id} className="flex items-center gap-3 rounded-lg border bg-card p-2">
-                  <img src={p?.images[0]} alt="" className="size-12 rounded object-cover" />
+                  <MediaImg src={p?.images[0]} alt="" className="size-12 rounded object-cover" />
                   <span>{p?.title}</span>
                 </li>
               );

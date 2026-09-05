@@ -13,6 +13,7 @@ import { formatDateTime } from "@/lib/format";
 import { stockHealth, useCatalogStore } from "@/stores/catalog-store";
 import { useCan } from "@/hooks/use-can";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/forms";
+import { MediaImg } from "@/components/media/media-img";
 
 export default function InventoryPage() {
   const products = useCatalogStore((s) => s.products);
@@ -96,7 +97,7 @@ export default function InventoryPage() {
                   <tr key={r.sku}>
                     <Td>
                       <div className="flex items-center gap-2">
-                        <img src={r.product.images[0]} alt="" className="size-10 rounded object-cover" />
+                        <MediaImg src={r.product.images[0]} alt="" className="size-10 rounded object-cover" />
                         {r.product.title}
                       </div>
                     </Td>

@@ -4,11 +4,14 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/shared/page-header";
+import { ProductMediaSection } from "@/components/shared/image-upload";
 import { Button } from "@/components/ui/button";
-import { Field, Input, Textarea } from "@/components/ui/input";
+import { Field, Input, NumberInput, Textarea } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Switch } from "@/components/ui/forms";
 import { Card } from "@/components/ui/layout";
 import { slugify } from "@/lib/utils";
+import { assignableCategories, categoryPath } from "@/lib/catalog";
+import { DETAIL_FIELD_KEYS, emptyDetailAttributes, mergeDetailAttributes } from "@/lib/product-details";
 import { useCatalogStore } from "@/stores/catalog-store";
 import { useCan } from "@/hooks/use-can";
 import type { Product, ProductStatus, ProductVariant } from "@/types";
@@ -23,13 +26,13 @@ const empty = (id: string): Product => ({
   mrp: 0,
   price: 0,
   taxPercent: 12,
-  categoryId: "cat_lehengas",
+  categoryId: "",
   collectionIds: [],
   images: [],
   colors: [{ name: "Ivory", hex: "#F4EFE6" }],
   sizes: ["S", "M", "L"],
   variants: [],
-  attributes: { Fabric: "", Pattern: "", Occasion: "", Fit: "", Sleeve: "", Neck: "", Material: "", Care: "Dry clean only." },
+  attributes: emptyDetailAttributes(),
   seoTitle: "",
   seoDescription: "",
   status: "draft",
@@ -70,9 +73,15 @@ export function ProductEditor({ productId }: { productId?: string }) {
   const can = useCan();
   const seed = products.find((p) => p.id === productId);
   const readOnly = seed ? !can("Products", "edit") : !can("Products", "create");
-  const [form, setForm] = useState<Product>(seed ?? empty(productId ?? `prd_${Date.now()}`));
+  const [form, setForm] = useState<Product>(() => {
+    const base = seed ?? empty(productId ?? `prd_${Date.now()}`);
+    return { ...base, attributes: mergeDetailAttributes(base.attributes) };
+  });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [customAttrKey, setCustomAttrKey] = useState("");
+
+  const categoryOptions = useMemo(() => assignableCategories(categories), [categories]);
 
   const discount = useMemo(() => {
     if (!form.mrp) return 0;
@@ -97,13 +106,29 @@ export function ProductEditor({ productId }: { productId?: string }) {
       setError("SKU is required.");
       return;
     }
+    if (!form.categoryId) {
+      setError("Choose a category — products are not assigned to Women (or Men) until you pick one.");
+      return;
+    }
     setError("");
     setBusy(true);
-    const withVariants = { ...form, variants: form.variants.length ? form.variants : rebuildVariants(form) };
-    await saveProduct(withVariants);
-    toast.success(seed ? "Product saved" : "Product created as draft");
-    setBusy(false);
-    router.push("/admin/products");
+    try {
+      const attributes = { ...form.attributes };
+      if (!attributes["Style Number"]?.trim()) attributes["Style Number"] = form.sku;
+      if (!attributes["Wash Care"]?.trim() && attributes.Care) attributes["Wash Care"] = attributes.Care;
+      const withVariants = {
+        ...form,
+        attributes,
+        variants: form.variants.length ? form.variants : rebuildVariants(form),
+      };
+      await saveProduct(withVariants);
+      toast.success(seed ? "Product saved" : "Product created as draft");
+      router.push("/admin/products");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not save product");
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
@@ -139,10 +164,10 @@ export function ProductEditor({ productId }: { productId?: string }) {
           <Card className="grid gap-4 p-5">
             <h2 className="font-display text-xl">Pricing</h2>
             <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-              <Field label="MRP"><Input type="number" value={form.mrp} onChange={(e) => set("mrp", Number(e.target.value))} /></Field>
-              <Field label="Selling price"><Input type="number" value={form.price} onChange={(e) => set("price", Number(e.target.value))} /></Field>
+              <Field label="MRP"><NumberInput value={form.mrp} onValueChange={(v) => set("mrp", v)} /></Field>
+              <Field label="Selling price"><NumberInput value={form.price} onValueChange={(v) => set("price", v)} /></Field>
               <Field label="Discount"><Input readOnly value={`${discount}%`} /></Field>
-              <Field label="Tax %"><Input type="number" value={form.taxPercent} onChange={(e) => set("taxPercent", Number(e.target.value))} /></Field>
+              <Field label="Tax %"><NumberInput value={form.taxPercent} onValueChange={(v) => set("taxPercent", v)} /></Field>
             </div>
           </Card>
 
@@ -190,25 +215,23 @@ export function ProductEditor({ productId }: { productId?: string }) {
                         />
                       </td>
                       <td>
-                        <Input
+                        <NumberInput
                           className="h-8"
-                          type="number"
                           value={v.price}
-                          onChange={(e) => {
+                          onValueChange={(price) => {
                             const variants = [...(form.variants.length ? form.variants : rebuildVariants(form))];
-                            variants[i] = { ...v, price: Number(e.target.value) };
+                            variants[i] = { ...v, price };
                             set("variants", variants);
                           }}
                         />
                       </td>
                       <td>
-                        <Input
+                        <NumberInput
                           className="h-8"
-                          type="number"
                           value={v.stock}
-                          onChange={(e) => {
+                          onValueChange={(stock) => {
                             const variants = [...(form.variants.length ? form.variants : rebuildVariants(form))];
-                            variants[i] = { ...v, stock: Number(e.target.value) };
+                            variants[i] = { ...v, stock };
                             set("variants", variants);
                           }}
                         />
@@ -222,30 +245,78 @@ export function ProductEditor({ productId }: { productId?: string }) {
 
           <Card className="grid gap-4 p-5">
             <h2 className="font-display text-xl">Media</h2>
-            <div
-              className="grid cursor-pointer place-items-center rounded-xl border border-dashed py-10 text-sm text-muted-foreground"
-              onClick={() => toast.message("Upload is simulated in this demo")}
-            >
-              Drop images or a short preview film here
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {form.images.map((src) => (
-                <img key={src} src={src} alt="" className="h-24 w-20 rounded-md object-cover" />
-              ))}
-            </div>
+            <ProductMediaSection images={form.images} onChange={(images) => set("images", images)} />
           </Card>
 
           <Card className="grid gap-4 p-5">
-            <h2 className="font-display text-xl">Attributes</h2>
+            <h2 className="font-display text-xl">Product details</h2>
+            <p className="text-xs text-muted-foreground">
+              These fields appear in the shop PDP accordion (style number, measurements, care, manufacturer, and more).
+            </p>
             <div className="grid gap-4 sm:grid-cols-2">
-              {Object.keys(form.attributes).map((key) => (
-                <Field key={key} label={key}>
-                  <Input
-                    value={form.attributes[key]}
-                    onChange={(e) => set("attributes", { ...form.attributes, [key]: e.target.value })}
-                  />
+              {DETAIL_FIELD_KEYS.map((key) => (
+                <Field
+                  key={key}
+                  label={key}
+                  hint={
+                    key === "Availability"
+                      ? "Ready to ship or Made to order"
+                      : key === "Production note"
+                        ? "Shown under Add to bag when filled"
+                        : key === "Measurements"
+                          ? "e.g. Saree 5.5 m · Blouse fabric 1 m"
+                          : undefined
+                  }
+                >
+                  {key === "Production note" || key === "Manufacturer" || key === "Measurements" ? (
+                    <Textarea
+                      value={form.attributes[key] ?? ""}
+                      onChange={(e) => set("attributes", { ...form.attributes, [key]: e.target.value })}
+                    />
+                  ) : (
+                    <Input
+                      value={form.attributes[key] ?? ""}
+                      onChange={(e) => set("attributes", { ...form.attributes, [key]: e.target.value })}
+                    />
+                  )}
                 </Field>
               ))}
+            </div>
+            <div className="grid gap-2 border-t pt-4">
+              <p className="text-sm font-medium">Extra attributes</p>
+              {Object.keys(form.attributes)
+                .filter((key) => !(DETAIL_FIELD_KEYS as readonly string[]).includes(key))
+                .map((key) => (
+                  <Field key={key} label={key}>
+                    <Input
+                      value={form.attributes[key]}
+                      onChange={(e) => set("attributes", { ...form.attributes, [key]: e.target.value })}
+                    />
+                  </Field>
+                ))}
+              <div className="flex flex-wrap items-end gap-2">
+                <div className="min-w-[12rem] flex-1">
+                  <Field label="Add field">
+                    <Input
+                      placeholder="e.g. Embroidery"
+                      value={customAttrKey}
+                      onChange={(e) => setCustomAttrKey(e.target.value)}
+                    />
+                  </Field>
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    const key = customAttrKey.trim();
+                    if (!key || form.attributes[key] !== undefined) return;
+                    set("attributes", { ...form.attributes, [key]: "" });
+                    setCustomAttrKey("");
+                  }}
+                >
+                  Add
+                </Button>
+              </div>
             </div>
           </Card>
         </div>
@@ -253,18 +324,31 @@ export function ProductEditor({ productId }: { productId?: string }) {
         <div className="grid gap-4 self-start">
           <Card className="grid gap-4 p-5">
             <h2 className="font-display text-xl">Organisation</h2>
-            <Field label="Category">
-              <Select value={form.categoryId} onValueChange={(v) => set("categoryId", v)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+            <Field label="Category" hint="Required. Pick the aisle under Women or Men — nothing is auto-assigned.">
+              <Select
+                value={form.categoryId || undefined}
+                onValueChange={(v) => set("categoryId", v)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select category…" />
+                </SelectTrigger>
                 <SelectContent>
-                  {categories.map((c) => (
-                    <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+                  {categoryOptions.map((c) => (
+                    <SelectItem key={c.id} value={c.id}>
+                      {categoryPath(categories, c.id)}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </Field>
+            {form.categoryId ? (
+              <p className="text-xs text-muted-foreground">
+                Shop path: {categoryPath(categories, form.categoryId)}
+              </p>
+            ) : null}
             <div className="grid gap-2">
               <p className="text-sm font-medium">Collections</p>
+              <p className="text-xs text-muted-foreground">Optional — toggle any that should feature this piece.</p>
               {collections.map((c) => {
                 const on = form.collectionIds.includes(c.id);
                 return (

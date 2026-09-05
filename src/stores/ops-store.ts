@@ -1,17 +1,7 @@
 "use client";
 
 import { create } from "zustand";
-import {
-  banners as seedBanners,
-  contentPages as seedPages,
-  coupons as seedCoupons,
-  homepageSections as seedHome,
-  promotions as seedPromos,
-  roles as seedRoles,
-  settings as seedSettings,
-  staff as seedStaff,
-} from "@/data/ops";
-import { mockDelay } from "@/lib/utils";
+import { api } from "@/services/api/client";
 import type { Banner, ContentPage, Coupon, HomepageSection, Promotion, Role, StaffUser, StoreSettings } from "@/types";
 
 type OpsState = {
@@ -23,6 +13,7 @@ type OpsState = {
   roles: Role[];
   staff: StaffUser[];
   settings: StoreSettings;
+  hydrate: (payload: Partial<Omit<OpsState, "hydrate" | "saveBanner" | "saveCoupon" | "toggleCoupon" | "toggleSection" | "reorderHomepage" | "savePage" | "updateSettings" | "togglePermission" | "saveStaff">>) => void;
   saveBanner: (banner: Banner) => Promise<void>;
   saveCoupon: (coupon: Coupon) => Promise<void>;
   toggleCoupon: (id: string) => Promise<void>;
@@ -34,44 +25,65 @@ type OpsState = {
   saveStaff: (user: StaffUser) => Promise<void>;
 };
 
+const emptySettings: StoreSettings = {
+  storeName: "Reena Rathore",
+  email: "",
+  phone: "",
+  currency: "INR",
+  timezone: "Asia/Kolkata",
+  address: "",
+  taxPercent: 12,
+  freeShippingThreshold: 15000,
+  lowStockThreshold: 3,
+};
+
 export const useOpsStore = create<OpsState>((set, get) => ({
-  banners: seedBanners,
-  promotions: seedPromos,
-  coupons: seedCoupons,
-  homepage: seedHome,
-  pages: seedPages,
-  roles: seedRoles,
-  staff: seedStaff,
-  settings: seedSettings,
+  banners: [],
+  promotions: [],
+  coupons: [],
+  homepage: [],
+  pages: [],
+  roles: [],
+  staff: [],
+  settings: emptySettings,
+  hydrate: (payload) => set(payload),
   saveBanner: async (banner) => {
-    await mockDelay();
     const exists = get().banners.some((b) => b.id === banner.id);
-    set({ banners: exists ? get().banners.map((b) => (b.id === banner.id ? banner : b)) : [banner, ...get().banners] });
+    const saved = exists
+      ? await api<Banner>(`/banners/${banner.id}`, { method: "PUT", body: JSON.stringify(banner) })
+      : await api<Banner>("/banners", { method: "POST", body: JSON.stringify(banner) });
+    set({
+      banners: exists ? get().banners.map((b) => (b.id === banner.id ? saved : b)) : [saved, ...get().banners],
+    });
   },
   saveCoupon: async (coupon) => {
-    await mockDelay();
+    const saved = await api<Coupon>(`/coupons/${coupon.id}`, { method: "PUT", body: JSON.stringify(coupon) });
     const exists = get().coupons.some((c) => c.id === coupon.id);
-    set({ coupons: exists ? get().coupons.map((c) => (c.id === coupon.id ? coupon : c)) : [coupon, ...get().coupons] });
+    set({
+      coupons: exists ? get().coupons.map((c) => (c.id === coupon.id ? saved : c)) : [saved, ...get().coupons],
+    });
   },
   toggleCoupon: async (id) => {
-    await mockDelay(250);
-    set({ coupons: get().coupons.map((c) => (c.id === id ? { ...c, active: !c.active } : c)) });
+    const coupon = await api<Coupon>(`/coupons/${id}/toggle`, { method: "PATCH" });
+    set({ coupons: get().coupons.map((c) => (c.id === id ? coupon : c)) });
   },
   toggleSection: async (id) => {
-    await mockDelay(220);
-    set({ homepage: get().homepage.map((s) => (s.id === id ? { ...s, visible: !s.visible } : s)) });
+    const section = await api<HomepageSection>(`/homepage/${id}/toggle`, { method: "PATCH" });
+    set({ homepage: get().homepage.map((s) => (s.id === id ? section : s)) });
   },
   reorderHomepage: (ids) => {
     const map = new Map(get().homepage.map((s) => [s.id, s]));
-    set({ homepage: ids.map((id) => map.get(id)!).filter(Boolean) });
+    const homepage = ids.map((id) => map.get(id)!).filter(Boolean);
+    set({ homepage });
+    void api("/homepage", { method: "PUT", body: JSON.stringify({ sections: homepage }) });
   },
   savePage: async (page) => {
-    await mockDelay();
-    set({ pages: get().pages.map((p) => (p.id === page.id ? page : p)) });
+    const saved = await api<ContentPage>(`/pages/${page.id}`, { method: "PUT", body: JSON.stringify(page) });
+    set({ pages: get().pages.map((p) => (p.id === page.id ? saved : p)) });
   },
   updateSettings: async (patch) => {
-    await mockDelay();
-    set({ settings: { ...get().settings, ...patch } });
+    const settings = await api<StoreSettings>("/settings", { method: "PATCH", body: JSON.stringify(patch) });
+    set({ settings });
   },
   togglePermission: (roleId, module, action) => {
     set({
@@ -84,10 +96,11 @@ export const useOpsStore = create<OpsState>((set, get) => ({
         return { ...role, permissions: { ...role.permissions, [module]: next } };
       }),
     });
+    void api(`/roles/${roleId}/permissions`, { method: "PATCH", body: JSON.stringify({ module, action }) });
   },
   saveStaff: async (user) => {
-    await mockDelay();
+    const saved = await api<StaffUser>(`/staff/${user.id}`, { method: "PUT", body: JSON.stringify(user) });
     const exists = get().staff.some((s) => s.id === user.id);
-    set({ staff: exists ? get().staff.map((s) => (s.id === user.id ? user : s)) : [user, ...get().staff] });
+    set({ staff: exists ? get().staff.map((s) => (s.id === user.id ? saved : s)) : [saved, ...get().staff] });
   },
 }));

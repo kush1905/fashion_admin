@@ -5,6 +5,7 @@ import { TableWrap, Td, Th } from "@/components/ui/layout";
 import { formatCurrency } from "@/lib/format";
 import { categories } from "@/data/catalog";
 import { productStock, useCatalogStore } from "@/stores/catalog-store";
+import { MediaImg } from "@/components/media/media-img";
 
 export default function ProductAnalyticsPage() {
   const products = useCatalogStore((s) => s.products);
@@ -24,7 +25,7 @@ export default function ProductAnalyticsPage() {
             <tr key={p.id}>
               <Td>
                 <div className="flex items-center gap-2">
-                  <img src={p.images[0]} alt="" className="size-10 rounded object-cover" />
+                  <MediaImg src={p.images[0]} alt="" className="size-10 rounded object-cover" />
                   {p.title}
                 </div>
               </Td>

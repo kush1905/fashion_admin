@@ -25,12 +25,12 @@ function SidebarBody({ collapsed, onNavigate }: { collapsed: boolean; onNavigate
   return (
     <div className="flex h-full flex-col bg-sidebar text-sidebar-foreground">
       <div className={cn("flex items-center gap-3 px-4 py-5", collapsed && "justify-center px-2")}>
-            <div className="flex size-9 items-center justify-center rounded-md bg-[#c4a574] text-sm font-medium text-[#1c1917]">
-              B
+            <div className="flex size-9 items-center justify-center rounded-md bg-[#c4a574] text-[10px] font-medium text-[#1c1917]">
+              RR
             </div>
         {!collapsed ? (
           <div>
-            <p className="font-display text-lg leading-none text-sidebar-foreground">Backstage</p>
+            <p className="font-display text-lg leading-none text-sidebar-foreground">Reena Rathore</p>
             <p className="mt-1 text-[11px] tracking-[0.16em] text-sidebar-muted uppercase">Admin</p>
           </div>
         ) : null}

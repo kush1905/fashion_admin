@@ -1,16 +1,16 @@
 export const DEMO_SUPER_ADMIN = {
   staffId: "st_01",
-  email: "priya@backstage.admin",
+  email: "priya@reenarathore.admin",
   password: "Admin@2026",
-  name: "Priya Shah",
+  name: "Reena Rathore",
   role: "Super Admin",
   roleId: "role_super",
-  initials: "PS",
+  initials: "RR",
 } as const;
 
 export const DEMO_STAFF = {
   staffId: "st_02",
-  email: "rahul@backstage.admin",
+  email: "rahul@reenarathore.admin",
   password: "Staff@2026",
   name: "Rahul Iyer",
   role: "Order Manager",

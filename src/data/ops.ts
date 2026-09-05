@@ -16,9 +16,9 @@ export const inventoryMovements: InventoryMovement[] = [
   { id: "mv_01", sku: "AD-LH-2418-RD-L", productId: "prd_04", type: "sale", quantity: -1, reason: "Order ORD-17990", createdAt: "2026-09-01T10:00:00.000Z", user: "System" },
   { id: "mv_02", sku: "AD-ST-2044-NV-L", productId: "prd_08", type: "sale", quantity: -2, reason: "Order ORD-18301", createdAt: "2026-08-29T12:00:00.000Z", user: "System" },
   { id: "mv_03", sku: "AD-LH-2401-IV-M", productId: "prd_01", type: "reserve", quantity: -1, reason: "Order ORD-18421", createdAt: "2026-09-03T08:14:00.000Z", user: "System" },
-  { id: "mv_04", sku: "AD-GN-3310-SG-S", productId: "prd_03", type: "restock", quantity: 6, reason: "Atelier intake", notes: "SS26 cord gowns from embroidery unit", createdAt: "2026-08-20T09:00:00.000Z", user: "Priya Shah" },
+  { id: "mv_04", sku: "AD-GN-3310-SG-S", productId: "prd_03", type: "restock", quantity: 6, reason: "Atelier intake", notes: "SS26 cord gowns from embroidery unit", createdAt: "2026-08-20T09:00:00.000Z", user: "Reena Rathore" },
   { id: "mv_05", sku: "AD-AC-718-IV-38", productId: "prd_17", type: "return", quantity: 1, reason: "RET-418 inspected", createdAt: "2026-08-08T12:00:00.000Z", user: "Rahul Iyer" },
-  { id: "mv_06", sku: "AD-NJ-0806-CH-40", productId: "prd_11", type: "adjustment", quantity: -1, reason: "Sample pulled for shoot", notes: "Lookbook FW26", createdAt: "2026-08-15T11:00:00.000Z", user: "Priya Shah" },
+  { id: "mv_06", sku: "AD-NJ-0806-CH-40", productId: "prd_11", type: "adjustment", quantity: -1, reason: "Sample pulled for shoot", notes: "Lookbook FW26", createdAt: "2026-08-15T11:00:00.000Z", user: "Reena Rathore" },
 ];
 
 export const banners: Banner[] = [
@@ -37,8 +37,8 @@ export const banners: Banner[] = [
   },
   {
     id: "bn_02",
-    title: "Hands free, hearts full",
-    subtitle: "Potlis, juttis, and jewellery that travel with the outfit.",
+    title: "Every last detail",
+    subtitle: "Potlis, juttis, and jewellery cut to finish the look.",
     cta: "Discover accessories",
     destination: "/collections/accessories",
     desktopImage: PRODUCT_IMAGES.silkBag,
@@ -180,7 +180,7 @@ export const contentPages: ContentPage[] = [
     slug: "contact",
     type: "page",
     excerpt: "Appointments, alterations, and the studio desk.",
-    body: "Flagship: Mehrauli, New Delhi\nAppointments: appointments@backstage.admin\nWhatsApp: +91 99993 13366\n\nStore hours: 11:00–20:00, Tuesday to Sunday.",
+    body: "Flagship: Mehrauli, New Delhi\nAppointments: appointments@reenarathore.admin\nWhatsApp: +91 99993 13366\n\nStore hours: 11:00–20:00, Tuesday to Sunday.",
     status: "published",
     updatedAt: "2026-07-01T00:00:00.000Z",
   },
@@ -328,12 +328,12 @@ export const roles: Role[] = [
 ];
 
 export const staff: StaffUser[] = [
-  { id: "st_01", name: "Priya Shah", email: "priya@backstage.admin", roleId: "role_super", status: "active", lastActive: "2026-09-04T09:40:00.000Z" },
-  { id: "st_02", name: "Rahul Iyer", email: "rahul@backstage.admin", roleId: "role_orders", status: "active", lastActive: "2026-09-04T08:12:00.000Z" },
-  { id: "st_03", name: "Aisha Khan", email: "aisha@backstage.admin", roleId: "role_marketing", status: "active", lastActive: "2026-09-03T19:05:00.000Z" },
-  { id: "st_04", name: "Vikram Rao", email: "vikram@backstage.admin", roleId: "role_inventory", status: "active", lastActive: "2026-09-04T07:50:00.000Z" },
-  { id: "st_05", name: "Nisha Menon", email: "nisha@backstage.admin", roleId: "role_support", status: "invited", lastActive: "" },
-  { id: "st_06", name: "Farhan Ali", email: "farhan@backstage.admin", roleId: "role_store", status: "disabled", lastActive: "2026-07-22T00:00:00.000Z" },
+  { id: "st_01", name: "Reena Rathore", email: "priya@reenarathore.admin", roleId: "role_super", status: "active", lastActive: "2026-09-04T09:40:00.000Z" },
+  { id: "st_02", name: "Rahul Iyer", email: "rahul@reenarathore.admin", roleId: "role_orders", status: "active", lastActive: "2026-09-04T08:12:00.000Z" },
+  { id: "st_03", name: "Aisha Khan", email: "aisha@reenarathore.admin", roleId: "role_marketing", status: "active", lastActive: "2026-09-03T19:05:00.000Z" },
+  { id: "st_04", name: "Vikram Rao", email: "vikram@reenarathore.admin", roleId: "role_inventory", status: "active", lastActive: "2026-09-04T07:50:00.000Z" },
+  { id: "st_05", name: "Nisha Menon", email: "nisha@reenarathore.admin", roleId: "role_support", status: "invited", lastActive: "" },
+  { id: "st_06", name: "Farhan Ali", email: "farhan@reenarathore.admin", roleId: "role_store", status: "disabled", lastActive: "2026-07-22T00:00:00.000Z" },
 ];
 
 export const activity: ActivityItem[] = [
@@ -347,8 +347,8 @@ export const activity: ActivityItem[] = [
 ];
 
 export const settings: StoreSettings = {
-  storeName: "Flagship store",
-  email: "studio@backstage.admin",
+  storeName: "Reena Rathore",
+  email: "studio@reenarathore.com",
   phone: "+91 99993 13366",
   currency: "INR",
   timezone: "Asia/Kolkata",

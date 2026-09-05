@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { PageHeader } from "@/components/shared/page-header";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { Button } from "@/components/ui/button";
-import { Field, Input } from "@/components/ui/input";
+import { Field, Input, NumberInput } from "@/components/ui/input";
 import { Switch, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/forms";
 import { TableWrap, Td, Th } from "@/components/ui/layout";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/overlay";
@@ -73,8 +73,8 @@ export default function CouponsPage() {
                 </SelectContent>
               </Select>
             </Field>
-            <Field label="Value"><Input type="number" value={form.value} onChange={(e) => setForm({ ...form, value: Number(e.target.value) })} /></Field>
-            <Field label="Minimum cart"><Input type="number" value={form.minCartValue} onChange={(e) => setForm({ ...form, minCartValue: Number(e.target.value) })} /></Field>
+            <Field label="Value"><NumberInput value={form.value ?? 0} onValueChange={(value) => setForm({ ...form, value })} /></Field>
+            <Field label="Minimum cart"><NumberInput value={form.minCartValue ?? 0} onValueChange={(minCartValue) => setForm({ ...form, minCartValue })} /></Field>
             <label className="flex items-center justify-between text-sm">First order only <Switch checked={!!form.firstOrderOnly} onCheckedChange={(v) => setForm({ ...form, firstOrderOnly: v })} /></label>
             <Button onClick={async () => {
               await save({
