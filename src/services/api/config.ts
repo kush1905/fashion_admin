@@ -12,8 +12,12 @@
 
 export const LOCAL_DEV_API_URL = "http://localhost:4000/api";
 
+/** Ensure base is `…/api` with no trailing slash (host-only values get `/api` appended). */
 function normalizeApiBaseUrl(url: string): string {
-  return url.trim().replace(/\/+$/, "");
+  const trimmed = url.trim().replace(/\/+$/, "");
+  if (!trimmed) return trimmed;
+  if (/\/api$/i.test(trimmed)) return trimmed;
+  return `${trimmed}/api`;
 }
 
 /** True when this client bundle was built for production (includes Vercel). */
